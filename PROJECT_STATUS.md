@@ -4,29 +4,29 @@
 |---|---|
 | **PROJECT** | Raja Hamid Ali Wedding Invitation (Raja Hamid Ali & Laiba Abbasi; Barat 17 Oct 2026, Walima 18 Oct 2026) |
 | **CANONICAL PROJECT PATH** | `/Users/noumansafdar/dev/raja-hamid-ali-wedding-invitation` (the ONLY project folder; develop here only) |
-| **CURRENT BUILD** | `dist/Raja-Hamid-Ali-Wedding-Invitation.html`, built with `node build.js --url https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/`; deployed byte-identical as the root `index.html`, plus `preview.jpg` |
-| **CURRENT SHA-256** | `63ad01d2f49bbfee909745606c63d3d2242e10a36221e79a895ee18c3dbc66b8` |
-| **CURRENT SIZE** | 642,779 bytes (`preview.jpg`: 213,574 bytes, `167e9511…592c8bea6`) |
-| **CURRENT STATUS** | **DEPLOYED** to GitHub Pages from `main` by the commit that adds this text (`git log -1 -- preview.jpg`). A commit cannot contain its own SHA: the commit SHA and the live verification are recorded in the local copy of this file after the push (§ "Deployment record") |
+| **CURRENT BUILD** | `dist/Raja-Hamid-Ali-Wedding-Invitation.html`, built with `node build.js --url https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/`; committed byte-identical as the root `index.html`, plus `preview.jpg` (whether it is live yet: § Deployment record) |
+| **CURRENT SHA-256** | `db45b1985149b36e1ac01355ec9bb8f50a7b0b55af582d2236ea53d72f4f2cd5` (Phase 6). Previous deployed build: `63ad01d2…c66b8` (Phase 5) |
+| **CURRENT SIZE** | 642,727 bytes (`preview.jpg`: 213,574 bytes, `167e9511…592c8bea6`, unchanged since Phase 5) |
+| **CURRENT STATUS** | The Phase 6 build is committed for deployment to GitHub Pages (`main`) by the commit that adds this text. Its live verification is recorded in § Deployment record by the docs-only commit that follows. (The Phase 5 deployment was verified live.) |
 | **GUEST SHARE URL** | https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/ (HTTPS, 200, no redirect when shared with the trailing slash) |
-| **GITHUB** | `bhattiassociatesofficial/raja-hamid-ali-wedding-invitation`, branch `main`, Pages from `main` `/` (legacy build). Root `index.html` = the deployed build. Before this deploy: HEAD = origin/main = `e502203` (the rejected `9eabff78`) |
-| **Last updated** | 2026-10-09 (Phase 5: Barat pocket-depth fix, share preview, deployment) |
+| **GITHUB** | `bhattiassociatesofficial/raja-hamid-ali-wedding-invitation`, branch `main`, Pages from `main` `/` (legacy build). Root `index.html` = the build named under CURRENT BUILD (the live page once its Pages build is verified: § Deployment record). Before the Phase 6 deploy: HEAD = origin/main = `acc5747` (the Phase 5 build `63ad01d2…`); before the Phase 5 deploy: `e502203` (the rejected `9eabff78`) |
+| **Last updated** | 2026-10-09 (Phase 6: privacy cleanup, browser-tab title) |
 
-> **Live = local since Phase 5.** The live page was `9eabff78…` (the rejected luxury build, commit `e502203`) until this deploy. If you ever doubt it, fetch the live page and hash it (see `docs/ROLLBACK.md` §5).
+> **What is live.** Until the Phase 6 Pages build is verified (§ Deployment record) the live page is the Phase 5 build `63ad01d2…`; before Phase 5 it was `9eabff78…` (the rejected luxury build). If you ever doubt it, fetch the live page and hash it (see `docs/ROLLBACK.md` §5).
 
 ## Deploy workflow (decided 2026-10-09, replaces the old "copy dist over index.html")
 
 GitHub Pages serves the root `index.html` of `main`. In this folder the build **template** used to be the root `index.html`, so the old method would have destroyed it. Now:
 
-- The template is `index.template.html` (identical to the old root `index.html`, SHA `b0f401ac…0296c2f`). `build.js` reads it. It is a local source file and is **not** in git (see "What is in git" below).
+- The template is `index.template.html` (the old root `index.html`; since Phase 6 only its `<title>` differs, SHA `945d76f4…d4d77`; before: `b0f401ac…0296c2f`). `build.js` reads it. It is a local source file and is **not** in git (see "What is in git" below).
 - `node build.js --url https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/` writes `dist/Raja-Hamid-Ali-Wedding-Invitation.html` and copies `preview.jpg` to `dist/`.
-- **Deploy = verify, then copy the build over the root page and commit exactly these files:** `index.html` (= the build, byte for byte) and `preview.jpg`. Check `shasum -a 256 index.html` equals the build SHA before committing, and fetch the live page afterwards.
-- Never `git add -A` / `git commit -a`: `backups/`, `docs/` evidence and `dist/` are not for the public repo.
+- **Deploy = verify, then copy the build over the root page and commit exactly these files:** `index.html` (= the build, byte for byte), `preview.jpg` when it changed, and the docs (`PROJECT_STATUS.md`, `docs/CHANGELOG.md`, `docs/ROLLBACK.md`); nothing else. Check `shasum -a 256 index.html` equals the build SHA before committing, and fetch the live page afterwards.
+- Never `git add -A` / `git commit -a`: `backups/`, `docs/` evidence and `dist/` are not for the public repo (many `backups/` files still contain the old contact numbers).
 
 ### What is in git, and why
 
 Committed (public repo): `index.html`, `preview.jpg`, `PROJECT_STATUS.md`, `docs/CHANGELOG.md`, `docs/ROLLBACK.md`.
-**Not pushed, on purpose:** the source tree (`js/`, `css/`, `build.js`, `index.template.html`, `fonts/`, `assets/`) and `docs/CLAUDE_HANDOFF.md`. Reason: `js/wedding-data.js` (line 90) and `docs/CLAUDE_HANDOFF.md` (§ contact) contain the two phone numbers the user chose to hide, as plain text. The deployed HTML already carries them inside a JS comment (known finding 8 below), but publishing them as readable repository files in a public repo would spread them further. Decision for the user: either approve removing the comment (changes the SHA) and then push the sources, or approve pushing them as they are.
+**Not pushed:** the source tree (`js/`, `css/`, `build.js`, `index.template.html`, `fonts/`, `assets/`) and `docs/CLAUDE_HANDOFF.md`. Since Phase 6 neither contains the contact numbers, so pushing them is no longer blocked by privacy; it was simply not requested. Publishing is permanent on a public repo, so ask the user first. Until they are pushed, **this repository alone cannot rebuild the page**; the sources live in this folder and in `backups/2026-10-09-final-db45b198/`.
 
 ---
 
@@ -43,8 +43,9 @@ Committed (public repo): `index.html`, `preview.jpg`, `PROJECT_STATUS.md`, `docs
 | **3 — Final surgical polish** | Done | `97767af4…331194b`, 641,898 B | 2026-10-08 | P1–P8 (table below): `css/invitation.css`, `js/app.js`, `js/render.js`, `js/wedding-data.js` (rotate hint text) | Chrome 28/28. WebKit 10/10. Firefox 10/10 (+ headed 9/9). Open-glide bit-identical 402/402 × 3 sizes. Closed lid 100% visible. 0 card intersections | P3 decision pending; GPU raster limit at 1×; no real devices | `backups/2026-10-07-pre-final-polish/` (fa3992fa) | — |
 | **4 — Project consolidation** | Done | `97767af4…` (unchanged, re-verified) | 2026-10-08 | Merged `dev/wedding card` into this repo folder; the old folder renamed `_OLD_wedding-card_AFTER_MERGE`; added the status, changelog, rollback and merge docs | SHA re-verified; rebuild reproduces `97767af4` byte-for-byte; 0 of 348 dev files lost; `.git` byte-identical | Deploy workflow needed a decision (now decided) | `/Users/noumansafdar/dev/_project-merge-backups/2026-10-08_100531/`; `backups/2026-10-08-pre-consolidation/` | User: approve deleting the old folder |
 | **5a — Barat overlap: z-clearance** | Done (superseded by 5b) | `5f017edb…d5dee4`, 641,894 B | 2026-10-08 | `asideRest` z = `D + Ti + 2.4` (was `D + Ti/2 + 0.5`): Barat lying on the left panel clears it | Improved but did not remove the overlay over Main | Overlay remained over Main's frame band (p 0.9267–0.9382, and on extraction 0.2245–0.2405) | `backups/2026-10-08-pre-barat-overlap-fix/` (app.js only), `backups/2026-10-08-pre-barat-pocket-depth-fix/` (complete: 5f017edb) | — |
-| **5b — Barat pocket-depth fix** | **Done, deployed** | `038f4f38…972ca71`, 642,227 B | 2026-10-09 | `T.barat = insertTrack(slotB - 0.0045 * Hi, …)`: Barat is seated as deep as its raised panel is high | Over-Main pixels 1,058–8,450 → **0** (Chromium + Firefox, 390×844 + 1280×800); see § Phase 5 | Pre-existing raster noise only (below) | `backups/2026-10-08-pre-barat-pocket-depth-fix/` | — |
-| **5c — Share preview + deployment** | **Done, deployed** | **`63ad01d2…c66b8`**, 642,779 B | 2026-10-09 | New `preview.jpg` (only "Wedding Invitation" + "Raja Hamid Ali"); share metadata rewritten in `build.js`; template moved to `index.template.html`; deployed from `main` | A/B regression below; live verification in the deployment record | `<title>` still names both people (it is the invitation page's own tab title) | `backups/2026-10-09-pre-share-preview/` (build.js, old preview.jpg); git `e502203` = the old live page | User: decide about pushing sources / handoff (privacy), P3 |
+| **5b — Barat pocket-depth fix** | **Done** (shipped inside the 5c build) | `038f4f38…972ca71`, 642,227 B | 2026-10-09 | `T.barat = insertTrack(slotB - 0.0045 * Hi, …)`: Barat is seated as deep as its raised panel is high | Over-Main pixels 1,058–8,450 → **0** (Chromium + Firefox, 390×844 + 1280×800); see § Phase 5 | Pre-existing raster noise only (below) | `backups/2026-10-08-pre-barat-pocket-depth-fix/` | — |
+| **5c — Share preview + deployment** | **Done, deployed** | **`63ad01d2…c66b8`**, 642,779 B | 2026-10-09 | New `preview.jpg` (only "Wedding Invitation" + "Raja Hamid Ali"); share metadata rewritten in `build.js`; template moved to `index.template.html`; deployed from `main` | A/B regression below; live verification in the deployment record | (none new; the tab title still named both people until Phase 6) | `backups/2026-10-09-pre-share-preview/` (build.js, old preview.jpg); git `e502203` = the old live page | User: decide about pushing sources / handoff (privacy), P3 |
+| **6 — Privacy cleanup + tab title** | **Done; committed for deployment** (live check: § Deployment record) | **`db45b198…2cd5`**, 642,727 B | 2026-10-09 | The contact-number comment removed from `js/wedding-data.js` (so from the build) and from the handoff; browser-tab title exactly `Raja Hamid Ali` (`js/app.js` runtime, `build.js`, template); share tags and `preview.jpg` unchanged | Multi-angle exposure audit; A/B against the deployed `63ad01d2` (273 frames × Chromium/Firefox × 390×844/1280×800, all bit-identical); 18-point title/meta/contact check 4/4; Barat probes 0 px | The numbers remain readable in earlier commits of the public git history (not rewritten) | `backups/2026-10-09-pre-privacy-cleanup/` (old files, still hold the numbers: keep local), `backups/2026-10-09-final-63ad01d2/` (Phase 5 build) | User: decide whether to push the sources; optional GitHub-side purge (§ Phase 6) |
 
 ### Phase 5 — what was found, fixed and tested
 
@@ -54,7 +55,7 @@ Where: `goBack(T.barat, M.bBack)` (`bBack = [0.89147, 0.93846]`), move 4 `outP �
 Full report: `docs/barat-pocket-depth-2026-10-08/DIAGNOSIS.md` (local evidence; not in git).
 
 **Share preview.** `preview.jpg` is the existing card with the panel repainted: it shows only `WEDDING INVITATION` (small caps) and `Raja Hamid Ali` (script) with the two flourishes; the "&", the bride's name, "Barat", "Walima" and both dates are gone. Florals, frame and artwork are the original pixels. 1200×630, baseline JPEG, no metadata. Original kept in `backups/2026-10-09-pre-share-preview/preview.jpg.before`.
-**Share metadata (`build.js`, built with `--url`).** `og:title` / `twitter:title` = "Wedding Invitation"; `og:description` / `twitter:description` / `description` = "Raja Hamid Ali"; `og:image` / `twitter:image` = `…/preview.jpg`; `og:image:type|width|height|alt`; `og:url`; `link rel=canonical`; `twitter:card` = summary_large_image. No bride name or date in any share tag. The `<title>` and the page itself still carry both names (that is the invitation).
+**Share metadata (`build.js`, built with `--url`).** `og:title` / `twitter:title` = "Wedding Invitation"; `og:description` / `twitter:description` / `description` = "Raja Hamid Ali"; `og:image` / `twitter:image` = `…/preview.jpg`; `og:image:type|width|height|alt`; `og:url`; `link rel=canonical`; `twitter:card` = summary_large_image. No bride name or date in any share tag. At Phase 5 the `<title>` and the page itself still carried both names; Phase 6 changed the tab title to `Raja Hamid Ali` (the invitation itself still carries both names, as it should).
 
 **Tests (A/B against the 5f017edb candidate, same harness, transitions frozen; self-test: 0 differing px).**
 | Check | Result |
@@ -72,6 +73,22 @@ Full report: `docs/barat-pocket-depth-2026-10-08/DIAGNOSIS.md` (local evidence; 
 **Not verified:** real WebKit/Safari (the headless Playwright WebKit available here rendered the scene at the wrong scale, so it gave no usable evidence), real phones, and WhatsApp's own card (the preview was checked from the live tags and the live image, see the deployment record).
 
 ---
+
+### Phase 6 — privacy cleanup and browser-tab title
+
+**Finding.** `contact` in `js/wedding-data.js` is an **empty list**; the two numbers the user chose to hide existed only inside a JS comment next to it. `render.js` draws a contact block only when the list is non-empty, so the invitation shows no contact details (verified on the live DOM: no `.fam-contact`, no `tel:` link, no phone-like digit run in the rendered text, JavaScript on or off). Removing the comment therefore changes nothing visible, and nothing had to be removed from the invitation.
+**Where the numbers were (audit by five independent read-only agents plus a critic, every common format and encoding):** the live page (one comment, in the inline script); `index.html` in earlier commits of the public repository; the sources, the handoff, `dist/` and `deployment/` drafts; 32 files in `backups/` and the frozen `dist/baseline/` file (the old folder and the merge backups hold the same, all local only). Not in `preview.jpg`, not in the embedded fonts/artwork, not in `PROJECT_STATUS.md`, `docs/CHANGELOG.md`, `docs/ROLLBACK.md`, not in any other file Pages serves.
+**Done.** The comment is gone from `js/wedding-data.js` (the list is `contact: []` with a comment that says how to add numbers), so from the build and the live page after this deploy; the handoff's contact paragraph rewritten without digits; the three downloaded copies of the old live page in the local evidence folder removed; the obsolete OG draft in `deployment/` scrubbed. The old backups were kept untouched (they are local, and the rule is to keep backups).
+**Still exposed and not removable without rewriting git history (not done: history rewrites are forbidden here):** `index.html` in the earlier commits of this public repository (browsable through GitHub's commit and raw-file views); the Pages deployment artifact(s) of earlier deployments (sign-in required, they expire on their own); any clone, fork or archive made while the numbers were live. Options for the user: accept it (the numbers were never printed on the card); delete and recreate the repository (destroys history; the same URL can be reused); ask GitHub Support to purge cached views of the old commits; delete the old Actions artifacts with `gh api -X DELETE`. None was done. The exact commits and URLs are in the local handoff, not here.
+**Browser-tab title.** Exactly `Raja Hamid Ali`: `document.title = data.groomName` (`js/app.js`; this is what the tab shows at runtime, and it overrode the HTML title before), `const title = data.groomName` (`build.js`, the `<title>` element) and the template's own `<title>`. The share-preview tags are separate and unchanged: `og:title` / `twitter:title` "Wedding Invitation", `og:description` / `twitter:description` "Raja Hamid Ali", `og:image` = the approved `preview.jpg`.
+**Build.** `db45b198…2cd5`, 642,727 bytes; the diff against the deployed `63ad01d2…` is 5 changed lines in 4 hunks (the `<title>`, the two comment lines, the `contact` line, the `document.title` line); three builds (two in place, one in a scratch copy) identical; `preview.jpg` byte-identical.
+**Tests.** A/B against the deployed `63ad01d2` build, Chromium and Firefox, 390×844 and 1280×800, 273 frames each over the whole story (closed Invitation lid, Main, Barat, Walima, Guests / Looking Forward, Thank You closed lid, every glide, Barat's extraction and return): **273/273 frames bit-identical in all four combinations**, including the frames inside Barat's windows with Barat shown (the Phase 5b fix is intact). Dimensions, card boxes and the computed type of all 794 text elements identical (7 stages). 0 JS errors, 0 failed requests, 0 external requests. Harness self-test: 0 differing px.
+- Title / share / contact check (`docs/barat-pocket-depth-2026-10-08/tools/final-check.js`, local evidence, not in git; 18 points × 4 combinations, 72/72 pass): runtime `document.title` and the `<title>` element are exactly `Raja Hamid Ali` at all 7 stages; `og:title` "Wedding Invitation", `og:description` / `twitter:description` / `description` "Raja Hamid Ali", `og:image` and `twitter:image` = the approved `preview.jpg` URL, `og:url` = `canonical`; no bride name, "Barat", "Walima" or date in the share tags or the tab title; the invitation's rendered text is identical to the deployed build at all 7 stages; the Guests card has its 12 names and no contact block, exactly as before (none rendered in either build); no phone-like digit run in the rendered text or the raw HTML; page makes one request (itself). Negative control: the same check run on the old build fails exactly the title and raw-digit points.
+- Barat (`docs/barat-pocket-depth-2026-10-08/tools/probe2.js`): over-Main pixels 0 at all 13 fine samples (p 0.9340–0.9370), at 32 pocketing samples of the return and 64 of the 65 extraction samples, in both engines and both viewports.
+- Reverse scrolling: Firefox 0 differing pixels forward vs back (both viewports); Chromium landscape ≤ 2/255; Chromium portrait 3 of 40 positions (one 9-px edge line, up to 56/255) — the same positions and pixels as before this change (finding 9).
+- Reproducibility: three builds identical; `preview.jpg` byte-identical.
+
+**Not verified:** real WebKit/Safari, real phones (iPhone Safari, Android Chrome) and WhatsApp's own preview card (the headless WebKit available here gave no usable evidence). The live Phase 6 page is checked after the push (§ Deployment record).
 
 ### Phase 3 items
 
@@ -97,13 +114,14 @@ Full report: `docs/barat-pocket-depth-2026-10-08/DIAGNOSIS.md` (local evidence; 
 5. Landscape text is 4.5–9 px (the hint covers it); WebKit shifts fully written lines ≈3 px when zoom sharpens.
 6. Tap-to-open glide is ~9.3 s: the user's decision; it is treated as protected.
 7. **Real devices: never tested** (iPhone Safari, Android Chrome, WhatsApp in-app). The share preview was verified from the live HTML tags and the live `preview.jpg`, not in WhatsApp itself.
-8. **Privacy finding (NOT changed):** the two hidden contact numbers are commented out in `js/wedding-data.js` (`contact: [ /* … */ ]`). `build.js` copies scripts verbatim, so the comment, and the numbers, are in the HTML source of the build AND of the live page. They are not shown on screen, but anyone who views the source can read them. To remove them, delete the comment and rebuild (changes the SHA; needs approval). This is also why the sources and `docs/CLAUDE_HANDOFF.md` were not pushed.
+8. **Contact numbers (Phase 6):** removed from the sources, the build and the handoff, and (once the Phase 6 deploy is live, § Deployment record) from the live page. They remain readable in earlier commits of the public git history; see § Phase 6 for the options. The invitation never displayed them.
 9. Pre-existing renderer raster noise: scrolling forward vs back to the same position over p 0.891–0.923 (Walima's return) differs by ≤ 2/255 on thousands of pixels, and by up to 56/255 on a 9-pixel edge line at p = 0.8936. Identical in the candidate and the final build; the Barat slide (p ≥ 0.9248) is bit-identical both ways.
-10. The public repo's description still names both people (GitHub repository setting; not changed). The browser-tab `<title>` names both people.
+10. The public repo's description still names both people (GitHub setting; not changed).
 
 ## Pending decisions / next actions (user)
 
-1. **Push the source tree and `docs/CLAUDE_HANDOFF.md`?** Needs the privacy decision in finding 8 first (strip the comment and rebuild, or accept publishing the numbers). Until then they exist only in this folder (plus the local backups).
+1. **Push the source tree and `docs/CLAUDE_HANDOFF.md`?** They are now free of the contact numbers (Phase 6) but remain unpublished; say if you want them in the repo.
+   Also decide whether to purge the old GitHub-side copies of the numbers (§ Phase 6), and whether to add a `.gitignore` (none exists; a local `.git/info/exclude` now hides `backups/`, `dist/`, `deployment/` and the two evidence folders from `git add`, which does not change the repository).
 2. **Shorter guest URL (optional).** The current URL is reliable and needs no change. The only genuinely shorter GitHub option is a new repository named exactly `bhattiassociatesofficial.github.io` (URL `https://bhattiassociatesofficial.github.io/`): it would take over this account's root site and need a second copy of the page kept in sync. Renaming this repository would shorten the path but break the existing URL (GitHub does not redirect Pages). Neither was done.
 3. P3 decision (finding 2); real-phone check, including a WhatsApp send to yourself to see the share card.
 4. After verifying this folder: approve permanently deleting `/Users/noumansafdar/dev/_OLD_wedding-card_AFTER_MERGE`.
@@ -118,10 +136,26 @@ Full report: `docs/barat-pocket-depth-2026-10-08/DIAGNOSIS.md` (local evidence; 
 - Polish report: `docs/compat-evidence-2026-10-07/FINAL-POLISH-REPORT.md`
 - Measurements: `docs/compat-evidence-2026-10-07/FINAL-MEASUREMENTS-REPORT.md`
 - Phase 1: `docs/compat-evidence-2026-10-07/phase1/PHASE1-REPORT.md`
-- In-project backups: `backups/` (build snapshots, `2026-10-08-pre-consolidation/`, `2026-10-08-pre-barat-pocket-depth-fix/`, `2026-10-09-pre-share-preview/`) · frozen baseline: `dist/baseline/`
+- In-project backups: `backups/` (build snapshots, `2026-10-08-pre-consolidation/`, `2026-10-08-pre-barat-pocket-depth-fix/`, `2026-10-09-pre-share-preview/`, `2026-10-09-final-63ad01d2/`, `2026-10-09-pre-privacy-cleanup/`, `2026-10-09-final-db45b198/`) · frozen baseline: `dist/baseline/`
 - Pre-merge backups: `/Users/noumansafdar/dev/_project-merge-backups/2026-10-08_100531/`
 
 ## Deployment record
 
-Deployed by the commit "fix: finalize Barat overlap and wedding invitation share preview" (find it with `git log -1 -- preview.jpg`), pushed normally to `origin main`: no force push, no history rewrite. It changes `index.html` (the build `63ad01d2…c66b8`, byte-identical to `dist/`), adds `preview.jpg`, and adds `PROJECT_STATUS.md`, `docs/CHANGELOG.md`, `docs/ROLLBACK.md`.
-A commit cannot contain its own SHA, so the commit SHA, the GitHub Pages build result and the live verification (hash of the live page and of the live `preview.jpg`, the live share tags, the live Chrome test of the Barat return) are recorded in the local copy of this file after the push.
+### Phase 5 — build `63ad01d2…c66b8`
+
+**Commit `acc57471e3fd0f4c1008aa48396457db91ca5c94`** — "fix: finalize Barat overlap and wedding invitation share preview", pushed normally to `origin main` (`e502203..acc5747`, fast-forward; no force, no history rewrite). 5 files: `index.html` (= build `63ad01d2…c66b8`), `preview.jpg`, `PROJECT_STATUS.md`, `docs/CHANGELOG.md`, `docs/ROLLBACK.md`. Nothing from `backups/`, `dist/`, `deployment/`, evidence, sources or `docs/CLAUDE_HANDOFF.md` was committed.
+
+| Check (2026-10-09, after the push) | Result |
+|---|---|
+| GitHub Pages build | `built` for commit `acc5747` (about 45 s after the push) |
+| Live page | HTTP/2 200, HTTPS, 0 redirects (with the trailing slash), 642,779 bytes, sha256 `63ad01d2f49bbfee909745606c63d3d2242e10a36221e79a895ee18c3dbc66b8` = the verified build; plain and cache-busted URL identical; not `9eabff78` |
+| Live `preview.jpg` | 200, `image/jpeg`, 213,574 bytes, sha256 `167e95115e30b3188390471b6117443e42f83a630dbaab672d19a9d592c8bea6`, 1200×630 baseline; viewed: only "WEDDING INVITATION" and "Raja Hamid Ali" |
+| Live share tags | `og:title` "Wedding Invitation"; `og:description`, `twitter:description`, `description` "Raja Hamid Ali"; `og:image` / `twitter:image` = the live `preview.jpg` URL (200); `og:url` and `canonical` = the live URL; no bride name, "Barat", "Walima" or date in any share tag |
+| Live behaviour (Chromium + Firefox desktop engines, the live URL) | Chromium + Firefox, 390×844 + 1280×800: 1 network request (the page), 0 failed, 0 JS errors; Barat over Main's face 0 px at all 13 fine samples (p 0.9340–0.9370), at 32 pocketing samples of the return and 64 of the extraction |
+
+### Phase 6 — build `db45b198…2cd5` (privacy cleanup, tab title)
+
+The commit SHA, the Pages build and the live verification are recorded by the docs-only commit that follows the deployment commit (a commit cannot contain its own SHA). Find the deployment commit with `git log -1 -- index.html`; it is titled "chore: finalize privacy cleanup and invitation metadata".
+
+Guest share URL (final): **https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/** — keep the trailing slash (without it GitHub adds one redirect).
+Raw live evidence (local, not in git): `docs/barat-pocket-depth-2026-10-08/live/` and `evidence/`.

@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Wedding Invitation">
   <meta name="twitter:description" content="Raja Hamid Ali">
   <meta name="twitter:image" content="https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/preview.jpg">
-  <title>Raja Hamid Ali &amp; Laiba Abbasi — Wedding Invitation</title>
+  <title>Raja Hamid Ali</title>
   <style>
 /* ==========================================================
    Wedding invitation — physical 3D stationery
@@ -933,10 +933,10 @@ window.weddingData = {
     "Mr. Ch. Awais Ali (UK)"
   ],
 
-  // Contact numbers are not printed at the moment. To show them at the
-  // foot of the family card, put the numbers back in the list:
+  // No contact numbers are printed. To show some at the foot of the
+  // family card, add them to this list (they are then public in the page).
   contactTitle: "Contact",
-  contact: [ /* "0333 5190783", "0331 5053035" */ ],
+  contact: [],
 
   /* Small interface text */
   ui: {
@@ -1486,7 +1486,7 @@ window.weddingData = {
   var fragment = document.createRange().createContextualFragment(markup);
   while (app.firstChild) app.removeChild(app.firstChild);
   app.appendChild(fragment);
-  document.title = data.groomName + " & " + data.brideName + " — Wedding Invitation";
+  document.title = data.groomName;   // the browser-tab title (the share-preview title is set in build.js)
 
   var $ = function (id) { return document.getElementById(id); };
   var el = {

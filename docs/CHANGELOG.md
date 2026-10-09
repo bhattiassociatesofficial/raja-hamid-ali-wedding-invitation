@@ -6,6 +6,26 @@ How to restore any of these: `docs/ROLLBACK.md`.
 
 ---
 
+## 2026-10-09 — Phase 6: Privacy cleanup and browser-tab title
+
+- **OLD BUILD (live before):** `63ad01d2f49bbfee909745606c63d3d2242e10a36221e79a895ee18c3dbc66b8` (642,779 bytes)
+- **NEW BUILD:** `db45b1985149b36e1ac01355ec9bb8f50a7b0b55af582d2236ea53d72f4f2cd5` (**642,727 bytes**), built with `node build.js --url https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/`; three builds (two in place, one in a scratch copy) identical. `preview.jpg` unchanged (`167e9511…592c8bea6`, 213,574 bytes).
+- **CHANGES** (5 changed lines in 4 hunks of the built HTML differ from `63ad01d2`):
+  - **Contact numbers:** `js/wedding-data.js` kept the two hidden numbers in a comment inside the empty `contact: [ … ]` list. The comment is removed (`contact: []`, with a comment on how to add numbers). The invitation never displayed them (an empty list renders no contact block), so no visible content changed. The handoff's contact paragraph was rewritten without the digits; the three local downloads of the old live page were removed. Old backups were left untouched.
+  - **Still public:** the numbers stay readable in `index.html` of earlier commits of the public repository (and in the Pages artifact(s) of earlier deployments, sign-in required, expiring); history is not rewritten. Details and options: `PROJECT_STATUS.md` § Phase 6. The exact commits and URLs are kept in the local handoff only.
+  - **Browser-tab title** is exactly `Raja Hamid Ali`: `document.title = data.groomName` (`js/app.js`), `const title = data.groomName` (`build.js`), template `<title>`. The share tags are unchanged (`og:title` "Wedding Invitation", `og:description` "Raja Hamid Ali", `og:image` = the approved `preview.jpg`).
+  - No animation, card, typography or preview change. Barat fix (Phase 5b) intact.
+- **TESTS** (evidence local: `docs/barat-pocket-depth-2026-10-08/`):
+  - exposure audit: five independent read-only agents plus a critic searched the live site, git history (all commits, the public GitHub copies), the publishable files and the local copies, in every common format and encoding
+  - A/B against the deployed `63ad01d2`: Chromium and Firefox, 390×844 and 1280×800, 273 frames each, **all bit-identical** (including Barat's extraction and return with Barat shown); dimensions and the typography of 794 text elements identical; 0 JS errors, 0 failed requests, 0 external requests
+  - title / share-tag / contact check, 18 points × 4 combinations, 72/72 pass: runtime and `<title>` exactly `Raja Hamid Ali`; share tags unchanged and free of the bride's name and dates; the invitation's rendered text identical at all 7 stages; the Guests card has no contact block in either build; no phone-like digits in the rendered text or the raw HTML (the same check fails on the old build, as it should)
+  - Barat probes: 0 px over Main at all 13 fine samples, 32 pocketing samples of the return and 64 of the 65 extraction samples, both engines, both viewports
+  - not verified: real WebKit/Safari, real phones, WhatsApp's own preview card
+  - reverse scrolling and the Chromium-portrait raster noise: unchanged from Phase 5 (`PROJECT_STATUS.md` finding 9)
+  - three builds identical
+- **ROLLBACK LOCATION:** `backups/2026-10-09-pre-privacy-cleanup/` (old `wedding-data.js`, `app.js`, `build.js`, template, deployed page and docs; they still hold the numbers, keep them local), `backups/2026-10-09-final-63ad01d2/` (Phase 5 build); new complete backup `backups/2026-10-09-final-db45b198/`.
+- **DEPLOYMENT:** deployment commit titled "chore: finalize privacy cleanup and invitation metadata" (`git log -1 -- index.html`); its SHA, the Pages build and the live verification are recorded by the docs-only commit that follows it (a commit cannot contain its own SHA).
+
 ## 2026-10-09 — Phase 5: Barat pocket-depth fix, share preview, deployment
 
 - **OLD BUILD (live before):** `9eabff78025fd8d955e61d9480a79558edf2ab4c8196997c8384019aa28a5a12` (634,671 bytes, the rejected luxury pass, commit `e502203`)
@@ -19,15 +39,15 @@ How to restore any of these: `docs/ROLLBACK.md`.
   - **Share preview:** `preview.jpg` shows only "WEDDING INVITATION" and "Raja Hamid Ali" (with the flourishes). The "&", the bride's name, "Barat", "Walima" and both dates were removed; florals/frame/artwork are the original pixels.
   - **Share metadata (`build.js`):** `og:title`/`twitter:title` = "Wedding Invitation"; `og:description`/`twitter:description`/`description` = "Raja Hamid Ali"; `og:image`/`twitter:image` = `…/preview.jpg` (+ type, width, height, alt); `og:url`; `link rel=canonical`. The old tags carried both names and both dates. Orphaned `when()`/`description` removed.
   - **Deploy workflow:** the build template moved from the root `index.html` to `index.template.html` (identical bytes; `build.js` now reads it), so the root `index.html` can be the deployed page. Deploy = copy the verified build to `index.html`, commit `index.html` + `preview.jpg` (+ the docs), push `main`.
-  - Not pushed (privacy): source tree and `docs/CLAUDE_HANDOFF.md` (they contain the two hidden phone numbers as plain text; the deployed HTML already holds them in a comment, finding 8).
+  - Not pushed at the time (privacy): source tree and `docs/CLAUDE_HANDOFF.md` (they contained the two hidden phone numbers as plain text); resolved in Phase 6.
 - **TESTS** (evidence: `docs/barat-pocket-depth-2026-10-08/`, local):
   - over-Main pixels (Barat shown vs hidden, restricted to Main's face): 1,058–1,809 px (390×844) / 2,055–8,450 px (1280×800) → **0 px** at every sample of p 0.9340–0.9370 step 0.00025, at 32 pocketing samples of the return and 64 of the extraction; Chromium + Firefox, both viewports; Walima same region 0 px before and after
   - exact 3D quad-intersection check (Barat vs every other surface, extraction + return): no new intersecting pair (149 + 243 frames per build, both viewports); two glancing contacts with the lid's hinge strip disappeared
   - A/B regression vs `5f017edb`: Chromium and Firefox, 390×844 and 1280×800, 461 frames each: 224/224 frames outside Barat's two windows bit-identical (closed Invitation lid, Main, Walima, Guests, Thank You lid, all glides); 237/237 frames inside them bit-identical with Barat hidden; dimensions and typography identical (7 stages, 794 text elements); real forward/back scrolling identical in Firefox, ≤ 2/255 noise in Chromium landscape, and in Chromium portrait the same 3 pre-existing raster-noise positions as the candidate; largest frame-to-frame change identical before/after; 0 JS errors, 0 failed requests, 0 external requests
   - not verified: real WebKit/Safari (headless WebKit here gave an unusable render), real phones, WhatsApp's own card
   - static scan of the build: no `http(s)` URL other than the SVG namespace; no `<script src>`, `<link href>`, `@import`, `fetch`/XHR, `<img>`; all fonts and artwork are `data:` URIs
-- **ROLLBACK LOCATION:** `backups/2026-10-08-pre-barat-pocket-depth-fix/` (5f017edb, complete, read-only, `SHA256SUMS`), `backups/2026-10-09-pre-share-preview/` (old `build.js`, old `preview.jpg`); the old live page: `git show e502203:index.html`
-- **DEPLOYMENT:** see `PROJECT_STATUS.md` § Deployment record.
+- **ROLLBACK LOCATION:** `backups/2026-10-08-pre-barat-pocket-depth-fix/` (5f017edb, complete, read-only, `SHA256SUMS`), `backups/2026-10-09-pre-share-preview/` (old `build.js`, old `preview.jpg`); the old live page: see git history
+- **DEPLOYMENT:** commit `acc57471e3fd0f4c1008aa48396457db91ca5c94` (`e502203..acc5747`, normal push to `origin main`); Pages build `built`; live page sha256 `63ad01d2…c66b8` (642,779 B) and live `preview.jpg` `167e9511…` verified by fetching the live URLs; live share tags carry no bride name or date; live Barat probes (Chromium + Firefox, both viewports): 0 px over Main. Details: `PROJECT_STATUS.md` § Deployment record. Guest URL: https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/
 
 ## 2026-10-08 — Phase 4: Project consolidation
 
