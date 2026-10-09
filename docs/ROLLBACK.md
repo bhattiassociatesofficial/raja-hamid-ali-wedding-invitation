@@ -11,7 +11,7 @@ P=/Users/noumansafdar/dev/raja-hamid-ali-wedding-invitation        # canonical p
 M=/Users/noumansafdar/dev/_project-merge-backups/2026-10-08_100531  # pre-merge backups
 ```
 
-> **WARNING (privacy, since Phase 6).** Every build, and every backup folder except `backups/2026-10-09-final-db45b198/` (and the tiny `2026-10-08-pre-barat-overlap-fix/`), contains the two hidden contact numbers: in `wedding-data.js` and therefore in the page source of every built page. `dist/baseline/`, the old folder (`_OLD_wedding-card_AFTER_MERGE`) and the merge backups contain them too. Restoring such a file into the working tree and rebuilding, or publishing such a page, **republishes the numbers**. The restore recipes below therefore end with a clean-up line; never skip it, and never publish an older build's HTML. Only `db45b198` is clean.
+> **WARNING (privacy, since Phase 6).** Every build, and every backup folder except `backups/2026-10-09-final-db45b198/`, `backups/2026-10-10-pre-tap-wip/`, `backups/2026-10-10-final-5aa24e82/` (and the tiny `2026-10-08-pre-barat-overlap-fix/`), contains the two hidden contact numbers: in `wedding-data.js` and therefore in the page source of every built page. `dist/baseline/`, the old folder (`_OLD_wedding-card_AFTER_MERGE`) and the merge backups contain them too. Restoring such a file into the working tree and rebuilding, or publishing such a page, **republishes the numbers**. The restore recipes below therefore end with a clean-up line; never skip it, and never publish an older build's HTML. Only `db45b198` and the Phase 7 build `5aa24e82` (and the WIP snapshot taken from the former's sources) are clean.
 
 ## 0. Always first: snapshot the current state
 
@@ -23,7 +23,22 @@ cp -p "$P/build.js" "$P/index.template.html" "$P/preview.jpg" "$S/"; cp -p "$P/d
 (cd "$S" && find . -type f ! -name SHA256SUMS -print0 | xargs -0 shasum -a 256 > SHA256SUMS && cat SHA256SUMS)
 ```
 
-## 1a. The CURRENT build (db45b198, Phase 6, 2026-10-09)
+## 1a. The CURRENT build (5aa24e82, Phase 7: tap-to-advance, 2026-10-10)
+
+Expected: `5aa24e824fbab1c13de1293f382ba3f449b0f444e35dede8363cf6eee39da27b`, 652,706 bytes; `preview.jpg` `167e95115e30b3188390471b6117443e42f83a630dbaab672d19a9d592c8bea6` (unchanged).
+
+Copies of it: `$P/dist/Raja-Hamid-Ali-Wedding-Invitation.html`; `$P/index.html` (the root page, byte-identical once deployed); git `HEAD:index.html` of the Phase 7 deployment commit; and the complete, read-only source + build backup `$P/backups/2026-10-10-final-5aa24e82/` (with `SHA256SUMS`). The uncommitted tap-driven work in progress that Phase 7 started from is `$P/backups/2026-10-10-pre-tap-wip/` (sources + its dist `79b74e5e…`; superseded, kept for reference).
+
+```bash
+B="$P/backups/2026-10-10-final-5aa24e82"
+(cd "$B" && shasum -a 256 -c SHA256SUMS)    # every line must say OK
+# rebuild from the backup's own sources in a scratch folder (leaves $P untouched):
+T=$(mktemp -d); ditto "$B" "$T"; chmod -R u+w "$T"; (cd "$T" && node build.js --url https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/ && shasum -a 256 dist/Raja-Hamid-Ali-Wedding-Invitation.html)   # must print 5aa24e82…
+```
+
+**Go back to the scroll-driven invitation (Phase 6, `db45b198…`, number-free): fix forward or revert the Phase 7 commit.** `git revert --no-edit <phase-7-commit>` restores `index.html` to the Phase 6 page, which contains no contact numbers (safe), then `git push origin main` (normal push). The Phase 6 sources are `$P/backups/2026-10-09-final-db45b198/` (§1b). Tuning without a rollback: pace is `PACE` in `js/app.js` (`motion`, `settle`, `name`, `ready`, `k.*`), the writing speed of body lines is `KIND.l` (per-glyph weight), and the hover/lid hand-off is `story.peekHold`.
+
+## 1b. The previous build (db45b198, Phase 6, 2026-10-09; scroll-driven)
 
 Expected: `db45b1985149b36e1ac01355ec9bb8f50a7b0b55af582d2236ea53d72f4f2cd5`, 642,727 bytes; `preview.jpg` `167e95115e30b3188390471b6117443e42f83a630dbaab672d19a9d592c8bea6`.
 
@@ -163,7 +178,7 @@ Pages serves `main` `/` (legacy build). The live page is the root `index.html` o
 **Check what is live** (cache-busting query; the plain URL can be cached up to 10 minutes):
 
 ```bash
-curl -s "https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/?v=$(date +%s)" | shasum -a 256   # db45b198… (Phase 6; the plain URL can lag up to 10 minutes after a deploy)
+curl -s "https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/?v=$(date +%s)" | shasum -a 256   # 5aa24e82… (Phase 7; the plain URL can lag up to 10 minutes after a deploy)
 curl -s "https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/preview.jpg?v=$(date +%s)" | shasum -a 256   # 167e9511…
 gh api repos/bhattiassociatesofficial/raja-hamid-ali-wedding-invitation/pages/builds/latest --jq '{status,commit}'
 ```
@@ -172,7 +187,7 @@ gh api repos/bhattiassociatesofficial/raja-hamid-ali-wedding-invitation/pages/bu
 
 ```bash
 git -C "$P" log --oneline -3                      # find the deployment commit
-git -C "$P" revert --no-edit <deployment-commit>   # restores index.html to the PREVIOUS page. WARNING: for the Phase 6 commit that is the 63ad01d2 page, which still has the old comment, so a revert republishes the contact numbers. Prefer fixing forward (a new commit with a corrected build).
+git -C "$P" revert --no-edit <deployment-commit>   # restores index.html to the PREVIOUS page. For the Phase 7 commit that is the Phase 6 page (db45b198, number-free): safe. WARNING: reverting the Phase 6 commit gives the 63ad01d2 page, which still has the old comment, so that revert republishes the contact numbers. Prefer fixing forward (a new commit with a corrected build).
 git -C "$P" push origin main
 ```
 
