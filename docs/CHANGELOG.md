@@ -24,7 +24,7 @@ How to restore any of these: `docs/ROLLBACK.md`.
   - reverse scrolling and the Chromium-portrait raster noise: unchanged from Phase 5 (`PROJECT_STATUS.md` finding 9)
   - three builds identical
 - **ROLLBACK LOCATION:** `backups/2026-10-09-pre-privacy-cleanup/` (old `wedding-data.js`, `app.js`, `build.js`, template, deployed page and docs; they still hold the numbers, keep them local), `backups/2026-10-09-final-63ad01d2/` (Phase 5 build); new complete backup `backups/2026-10-09-final-db45b198/`.
-- **DEPLOYMENT:** deployment commit titled "chore: finalize privacy cleanup and invitation metadata" (`git log -1 -- index.html`); its SHA, the Pages build and the live verification are recorded by the docs-only commit that follows it (a commit cannot contain its own SHA).
+- **DEPLOYMENT:** commit `95140afd1b36067eac9702200871bb224ae0281d` (`acc5747..95140af`, normal push to `origin main`); Pages build `built`; live page sha256 `db45b198…2cd5` (642,727 B) and live `preview.jpg` `167e9511…` verified by fetching the live URLs; live `<title>` `Raja Hamid Ali`; 0 occurrences of the contact numbers in the live page and docs; live checks 17/17 in Chromium and Firefox at both viewports, live Chromium A/B 273/273 bit-identical, live Barat probes 0 px. Details: `PROJECT_STATUS.md` § Deployment record. Guest URL: https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/
 
 ## 2026-10-09 — Phase 5: Barat pocket-depth fix, share preview, deployment
 

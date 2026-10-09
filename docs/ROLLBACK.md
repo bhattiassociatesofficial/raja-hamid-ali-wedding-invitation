@@ -27,7 +27,7 @@ cp -p "$P/build.js" "$P/index.template.html" "$P/preview.jpg" "$S/"; cp -p "$P/d
 
 Expected: `db45b1985149b36e1ac01355ec9bb8f50a7b0b55af582d2236ea53d72f4f2cd5`, 642,727 bytes; `preview.jpg` `167e95115e30b3188390471b6117443e42f83a630dbaab672d19a9d592c8bea6`.
 
-Copies of it: `$P/dist/Raja-Hamid-Ali-Wedding-Invitation.html`; `$P/index.html` (the root page, byte-identical; it is live once the Phase 6 Pages build is verified); git `HEAD:index.html` of the Phase 6 deployment commit; and the complete, read-only source + build backup `$P/backups/2026-10-09-final-db45b198/` (with `SHA256SUMS`).
+Copies of it: `$P/dist/Raja-Hamid-Ali-Wedding-Invitation.html`; `$P/index.html` (the root page, byte-identical; live since 2026-10-09); git `HEAD:index.html` of the Phase 6 deployment commit; and the complete, read-only source + build backup `$P/backups/2026-10-09-final-db45b198/` (with `SHA256SUMS`).
 
 ```bash
 B="$P/backups/2026-10-09-final-db45b198"
@@ -163,7 +163,7 @@ Pages serves `main` `/` (legacy build). The live page is the root `index.html` o
 **Check what is live** (cache-busting query; the plain URL can be cached up to 10 minutes):
 
 ```bash
-curl -s "https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/?v=$(date +%s)" | shasum -a 256   # db45b198… once the Phase 6 Pages build is live (63ad01d2… until then; the plain URL can lag up to 10 minutes)
+curl -s "https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/?v=$(date +%s)" | shasum -a 256   # db45b198… (Phase 6; the plain URL can lag up to 10 minutes after a deploy)
 curl -s "https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/preview.jpg?v=$(date +%s)" | shasum -a 256   # 167e9511…
 gh api repos/bhattiassociatesofficial/raja-hamid-ali-wedding-invitation/pages/builds/latest --jq '{status,commit}'
 ```
