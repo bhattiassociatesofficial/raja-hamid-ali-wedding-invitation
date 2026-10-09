@@ -28,7 +28,7 @@ How to restore any of these: `docs/ROLLBACK.md`.
   - negative controls: the new checks fail on the previous build exactly where the defects were (lid drop of 9.000° at 1280×800, invitation restarted by taps at 390×844)
   - not verified: real Safari/WebKit rendering, real phones, WhatsApp in-app
 - **ROLLBACK LOCATION:** `backups/2026-10-09-final-db45b198/` (the previous, scroll-driven, deployed build and sources), `backups/2026-10-10-pre-tap-wip/` (the uncommitted tap-driven work in progress found at the start of this phase), new complete backup `backups/2026-10-10-final-5aa24e82/`.
-- **DEPLOYMENT:** (recorded after the push)
+- **DEPLOYMENT:** commit `96b206b6603caef4c925bb452f7d13890bc60339` (`15daf37..96b206b`, normal push to `origin main`, 4 files: `index.html`, `PROJECT_STATUS.md`, `docs/CHANGELOG.md`, `docs/ROLLBACK.md`); Pages build `built` about 34 s later; live page sha256 `5aa24e82…da27b` (652,706 B) = the verified build, plain and cache-busted URL identical, live `preview.jpg` `167e9511…` unchanged; live suites on the GitHub Pages URL: Chromium 390×844 111/111, Firefox 1280×800 112/112, extras Chromium 16/16 and 20/20. No service worker or cache version exists to change; Pages serves `max-age=600`.
 
 ## 2026-10-09 — Phase 6: Privacy cleanup and browser-tab title
 
