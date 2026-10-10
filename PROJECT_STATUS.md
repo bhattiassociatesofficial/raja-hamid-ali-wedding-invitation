@@ -241,4 +241,14 @@ Raw live evidence (local, not in git): `docs/barat-pocket-depth-2026-10-08/live/
 
 ### Phase 8 — build `25118892…250b6` (smooth, soft card motion)
 
-Recorded after the push (see the next commit): commit, GitHub Pages build, live hash and live checks.
+**Commit `da684fa17f5a8987a80bdc534490343114b64a40`** — "perf: smooth, soft card motion (no per-frame redraw, even glides, calmer pace)", pushed normally to `origin main` (`978f87d..da684fa`, fast-forward; no force, no history rewrite). 4 files: `index.html` (= build `25118892…250b6`, 662,347 B), `PROJECT_STATUS.md`, `docs/CHANGELOG.md`, `docs/ROLLBACK.md`; nothing else (`preview.jpg` unchanged).
+
+| Check (2026-10-10, after the push) | Result |
+|---|---|
+| GitHub Pages build | `built` for commit `da684fa`, about 30 s after the push (09:56:16 UTC) |
+| Live page | HTTP/2 200, HTTPS, 662,347 bytes, sha256 `25118892b2d833d09399c979b8065b49b4e11dc6c355d3e59658be54ddd250b6` = the verified build and the local `index.html`; plain and cache-busted URL identical; first fetch already current. `cache-control: max-age=600` (a returning guest may see the previous page for up to 10 minutes) |
+| Live `preview.jpg` | 200, `image/jpeg`, 213,574 bytes, sha256 `167e9511…592c8bea6` (unchanged) |
+| Live `<title>` and share tags | `<title>` `Raja Hamid Ali`; `og:title` "Wedding Invitation"; `og:description` "Raja Hamid Ali"; `og:image` = the live `preview.jpg` URL; unchanged |
+| Not served (404) | `js/app.js`, `build.js`, `index.template.html`, `docs/CLAUDE_HANDOFF.md`, `backups/`, `dist/`, `sw.js` |
+| Contact numbers | 0 phone-like digit runs in the live page |
+| Live behaviour (the real GitHub Pages URL, real mouse/keyboard input, `tap-suite.js`) | Chromium (GPU) 390×844 **115/116** and 1280×800 **115/116**: the one item that does not pass in either is "no failed requests", and it is the browser's own automatic probe of `https://bhattiassociatesofficial.github.io/favicon.ico` (the root of the account's site, 404, harmless; a CDP network log of the journey shows the page itself makes no request but the document and its `data:` URIs). Firefox (headed) 390×844 114/115: the hint's 0.2 s fade sampled early in "Back starts a movement" (it fails the same way on the Phase 7 build). Everything else passes: one tap = one page, hint rules, Back, zoom/pan, rotation, scroll, Open again, reload, reduced motion, the 12 names in order |
