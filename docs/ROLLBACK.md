@@ -11,7 +11,7 @@ P=/Users/noumansafdar/dev/raja-hamid-ali-wedding-invitation        # canonical p
 M=/Users/noumansafdar/dev/_project-merge-backups/2026-10-08_100531  # pre-merge backups
 ```
 
-> **WARNING (privacy, since Phase 6).** Every build, and every backup folder except `backups/2026-10-09-final-db45b198/`, `backups/2026-10-10-pre-tap-wip/`, `backups/2026-10-10-final-5aa24e82/` (and the tiny `2026-10-08-pre-barat-overlap-fix/`), contains the two hidden contact numbers: in `wedding-data.js` and therefore in the page source of every built page. `dist/baseline/`, the old folder (`_OLD_wedding-card_AFTER_MERGE`) and the merge backups contain them too. Restoring such a file into the working tree and rebuilding, or publishing such a page, **republishes the numbers**. The restore recipes below therefore end with a clean-up line; never skip it, and never publish an older build's HTML. Only `db45b198` and the Phase 7 build `5aa24e82` (and the WIP snapshot taken from the former's sources) are clean.
+> **WARNING (privacy, since Phase 6).** Every build, and every backup folder except `backups/2026-10-09-final-db45b198/`, `backups/2026-10-10-pre-tap-wip/`, `backups/2026-10-10-final-5aa24e82/`, `backups/2026-10-10-pre-luxury-motion/`, `backups/2026-10-10-final-25118892/` (and the tiny `2026-10-08-pre-barat-overlap-fix/`), contains the two hidden contact numbers: in `wedding-data.js` and therefore in the page source of every built page. `dist/baseline/`, the old folder (`_OLD_wedding-card_AFTER_MERGE`) and the merge backups contain them too. Restoring such a file into the working tree and rebuilding, or publishing such a page, **republishes the numbers**. The restore recipes below therefore end with a clean-up line; never skip it, and never publish an older build's HTML. Only `db45b198`, the Phase 7 build `5aa24e82` and the Phase 8 build `25118892` (and the snapshots taken from their sources) are clean.
 
 ## 0. Always first: snapshot the current state
 
@@ -23,7 +23,21 @@ cp -p "$P/build.js" "$P/index.template.html" "$P/preview.jpg" "$S/"; cp -p "$P/d
 (cd "$S" && find . -type f ! -name SHA256SUMS -print0 | xargs -0 shasum -a 256 > SHA256SUMS && cat SHA256SUMS)
 ```
 
-## 1a. The CURRENT build (5aa24e82, Phase 7: tap-to-advance, 2026-10-10)
+## 1-0. The CURRENT build (25118892, Phase 8: smooth card motion, 2026-10-10)
+
+Expected: `25118892b2d833d09399c979b8065b49b4e11dc6c355d3e59658be54ddd250b6`, 662,347 bytes; `preview.jpg` `167e95115e30b3188390471b6117443e42f83a630dbaab672d19a9d592c8bea6` (unchanged).
+
+Copies of it: `$P/dist/Raja-Hamid-Ali-Wedding-Invitation.html`; `$P/index.html` (the root page, byte-identical once deployed); git `HEAD:index.html` of the Phase 8 deployment commit; and the complete, read-only source + build backup `$P/backups/2026-10-10-final-25118892/` (with `SHA256SUMS`).
+
+```bash
+B="$P/backups/2026-10-10-final-25118892"
+(cd "$B" && shasum -a 256 -c SHA256SUMS)    # every line must say OK
+T=$(mktemp -d); ditto "$B" "$T"; chmod -R u+w "$T"; (cd "$T" && node build.js --url https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/ && shasum -a 256 dist/Raja-Hamid-Ali-Wedding-Invitation.html)   # must print 25118892…
+```
+
+**Go back to the Phase 7 invitation (`5aa24e82…`): fix forward or revert the Phase 8 commit.** `git revert --no-edit <phase-8-feature-commit>` restores `index.html` to the Phase 7 page (number-free), then a normal `git push origin main`. Or restore from `backups/2026-10-10-final-5aa24e82/` (section 1a) exactly as for any earlier build. The Phase 7 page is smaller and plainer to draw but its card movements ran at 5–17 fps on the test Mac.
+
+## 1a. The previous build (5aa24e82, Phase 7: tap-to-advance, 2026-10-10)
 
 Expected: `5aa24e824fbab1c13de1293f382ba3f449b0f444e35dede8363cf6eee39da27b`, 652,706 bytes; `preview.jpg` `167e95115e30b3188390471b6117443e42f83a630dbaab672d19a9d592c8bea6` (unchanged).
 

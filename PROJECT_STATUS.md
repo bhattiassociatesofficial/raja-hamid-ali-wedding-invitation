@@ -5,14 +5,14 @@
 | **PROJECT** | Raja Hamid Ali Wedding Invitation (Raja Hamid Ali & Laiba Abbasi; Barat 17 Oct 2026, Walima 18 Oct 2026) |
 | **CANONICAL PROJECT PATH** | `/Users/noumansafdar/dev/raja-hamid-ali-wedding-invitation` (the ONLY project folder; develop here only) |
 | **CURRENT BUILD** | `dist/Raja-Hamid-Ali-Wedding-Invitation.html`, built with `node build.js --url https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/`; deployed byte-identical as the root `index.html`, plus `preview.jpg` |
-| **CURRENT SHA-256** | `5aa24e824fbab1c13de1293f382ba3f449b0f444e35dede8363cf6eee39da27b` (Phase 7, tap-driven). Previous deployed builds: `db45b198…2cd5` (Phase 6, scroll-driven), `63ad01d2…c66b8` (Phase 5) |
-| **CURRENT SIZE** | 652,706 bytes (`preview.jpg`: 213,574 bytes, `167e9511…592c8bea6`, unchanged since Phase 5) |
-| **CURRENT STATUS** | **DEPLOYED and verified live** (Phase 7, 2026-10-10): the live page is this build, byte for byte (§ Deployment record) |
+| **CURRENT SHA-256** | `25118892b2d833d09399c979b8065b49b4e11dc6c355d3e59658be54ddd250b6` (Phase 8, smooth card motion). Previous deployed builds: `5aa24e82…da27b` (Phase 7, tap-driven), `db45b198…2cd5` (Phase 6, scroll-driven), `63ad01d2…c66b8` (Phase 5) |
+| **CURRENT SIZE** | 662,347 bytes (`preview.jpg`: 213,574 bytes, `167e9511…592c8bea6`, unchanged since Phase 5) |
+| **CURRENT STATUS** | **DEPLOYED** (Phase 8, 2026-10-10); the live check is recorded in § Deployment record |
 | **GUEST SHARE URL** | https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/ (HTTPS, 200, no redirect when shared with the trailing slash) |
-| **GITHUB** | `bhattiassociatesofficial/raja-hamid-ali-wedding-invitation`, branch `main`, Pages from `main` `/` (legacy build). Root `index.html` = the deployed build. Phase 7 deploy: `15daf37` → `96b206b`. Before the Phase 6 deploy: HEAD = origin/main = `acc5747` (the Phase 5 build `63ad01d2…`); before the Phase 5 deploy: `e502203` (the rejected `9eabff78`) |
-| **Last updated** | 2026-10-10 (Phase 7: tap-to-advance experience) |
+| **GITHUB** | `bhattiassociatesofficial/raja-hamid-ali-wedding-invitation`, branch `main`, Pages from `main` `/` (legacy build). Root `index.html` = the deployed build. Phase 8 deploy: `978f87d` → the Phase 8 commit (§ Deployment record). Phase 7 deploy: `15daf37` → `96b206b`. Before the Phase 6 deploy: HEAD = origin/main = `acc5747` (the Phase 5 build `63ad01d2…`); before the Phase 5 deploy: `e502203` (the rejected `9eabff78`) |
+| **Last updated** | 2026-10-10 (Phase 8: smooth, soft card motion) |
 
-> **What is live.** The Phase 7 build `5aa24e82…` (tap-driven; verified 2026-10-10, § Deployment record). Before Phase 7 it was `db45b198…` (Phase 6, scroll-driven; verified 2026-10-09); before Phase 6, `63ad01d2…` (Phase 5); before Phase 5, `9eabff78…` (the rejected luxury build). If you ever doubt it, fetch the live page and hash it (see `docs/ROLLBACK.md` §5).
+> **What is live.** The Phase 8 build `25118892…` (smooth card motion; § Deployment record). Before Phase 8 it was the Phase 7 build `5aa24e82…` (tap-driven; verified 2026-10-10); before that `db45b198…` (Phase 6, scroll-driven; verified 2026-10-09); before Phase 6, `63ad01d2…` (Phase 5); before Phase 5, `9eabff78…` (the rejected luxury build). If you ever doubt it, fetch the live page and hash it (see `docs/ROLLBACK.md` §5).
 
 ## Deploy workflow (decided 2026-10-09, replaces the old "copy dist over index.html")
 
@@ -47,6 +47,7 @@ Committed (public repo): `index.html`, `preview.jpg`, `PROJECT_STATUS.md`, `docs
 | **5c — Share preview + deployment** | **Done, deployed** | **`63ad01d2…c66b8`**, 642,779 B | 2026-10-09 | New `preview.jpg` (only "Wedding Invitation" + "Raja Hamid Ali"); share metadata rewritten in `build.js`; template moved to `index.template.html`; deployed from `main` | A/B regression below; live verification in the deployment record | (none new; the tab title still named both people until Phase 6) | `backups/2026-10-09-pre-share-preview/` (build.js, old preview.jpg); git `e502203` = the old live page | User: decide about pushing sources / handoff (privacy), P3 |
 | **6 — Privacy cleanup + tab title** | **Done, deployed** | **`db45b198…2cd5`**, 642,727 B | 2026-10-09 | The contact-number comment removed from `js/wedding-data.js` (so from the build) and from the handoff; browser-tab title exactly `Raja Hamid Ali` (`js/app.js` runtime, `build.js`, template); share tags and `preview.jpg` unchanged | Multi-angle exposure audit; A/B against the deployed `63ad01d2` (273 frames × Chromium/Firefox × 390×844/1280×800, all bit-identical); 18-point title/meta/contact check 4/4; Barat probes 0 px | The numbers remain readable in earlier commits of the public git history (not rewritten) | `backups/2026-10-09-pre-privacy-cleanup/` (old files, still hold the numbers: keep local), `backups/2026-10-09-final-63ad01d2/` (Phase 5 build) | User: decide whether to push the sources; optional GitHub-side purge (§ Phase 6) |
 | **7 — Tap-to-advance experience** | **Done, deployed** | **`5aa24e82…da27b`**, 652,706 B | 2026-10-10 | The story is moved by taps, not by scroll: six pages, one tap = one page, hint "Tap to continue/finish" only when a tap is accepted, Back, calmer writing pace, reduced-motion path; fixes found while testing: desktop hover-lid snap, accidental "Open again", hint fade | Real-input suites 111–112 checks per run: Chromium 390×844, 844×390, 1280×800; Firefox (headed) 390×844, 1280×800; Playwright WebKit (logic only). Touch, zoom-during-movement, Open-again, hover-lid checks; fuzz 8 seeds; A/B vs Phase 6 (§ Phase 7) | Frame rate in the Barat/Walima scenes ≈ 12–22 fps on this Mac with a GPU browser (pre-existing); no real devices, no real Safari | `backups/2026-10-09-final-db45b198/` (Phase 6, scroll-driven), `backups/2026-10-10-pre-tap-wip/`, `backups/2026-10-10-final-5aa24e82/` | User: try it on a phone; tune `PACE` if the pace feels long |
+| **8 — Smooth, soft card motion** | **Done, deployed** | **`25118892…250b6`**, 662,347 B | 2026-10-10 | Cards were redrawn on every frame of a movement (5–17 fps measured): the light on them (shade, foil glint, lid cast and sheen) now lives on layers of its own, set directly from JS; each page's movement is one even glide (same poses and order, even speed on the screen, eased only at its two ends); `PACE.motion` 3.4 s/screen; the staged names leave gently | Real-input suites 115–116 checks per run: Chromium (GPU) 390×844, 844×390, 1280×800, touch; Firefox (headed); extra checks; fuzz 7 seeds; A/B vs Phase 7 at 55 positions per size; real-WebKit stills byte-identical; frame rate, speed profile and memory measured before/after (§ Phase 8) | Walima → Guests 30 fps on this Intel Mac (shadow compositing, fill-bound); desktop 1-px foil outline shift; no real devices/Safari motion | `backups/2026-10-10-final-5aa24e82/` (Phase 7, complete), `backups/2026-10-10-pre-luxury-motion/`, `backups/2026-10-10-final-25118892/` | User: try it on a phone; tell me if the pace should be slower or quicker (`PACE.motion`) |
 
 ### Phase 5 — what was found, fixed and tested
 
@@ -121,6 +122,25 @@ Full report: `docs/barat-pocket-depth-2026-10-08/DIAGNOSIS.md` (local evidence; 
 **Test-environment facts (not product behaviour).** Headless Chromium (software GL) and headless Firefox (≈ 7 fps, 149 ms median frame) stall on the 3D frames, so wall-clock times stretch there; the suite therefore checks the *story clock* (frame gaps capped at 0.25 s, as the engine caps them) and the wall time only when no frame is slow, and the timing and Firefox runs use a GPU-backed Chrome for Testing and headed Firefox (16.7 ms median frame). Playwright's WebKit 26.5 draws this 3D scene wrongly on this Mac (grey lid, blank page), so it only validates the interaction logic. The old build's `jump(p)` lands on whole scroll pixels (and half pixels in Firefox), so the A/B harness reads back the old build's actual `p`, snaps its scroll to a whole pixel and waits until its progress equals its scroll-derived target.
 **Not verified:** real Safari/iOS (no current valid environment here: Playwright WebKit renders the 3D wrongly, the system WebKit is the macOS 14 one), real Android/iPhone devices, WhatsApp in-app. Frame rate on phones is unknown; on this Mac with a GPU browser the card scenes run at ≈ 22 fps (Barat), 12 fps (Walima), 35 fps (Guests), 49 fps (Main), 26 fps (closing), the time-based story keeps its schedule regardless (it only slows if frames exceed 0.25 s).
 
+### Phase 8 — smooth, soft card motion (2026-10-10)
+
+**Why.** Request: the card animations must be completely smooth, premium, soft and luxurious.
+**Finding.** Measured with real taps in a GPU Chrome: the card movements ran at **5–17 fps** (closed → Main 17, Main → Barat 12, Barat → Walima 7.5, Walima → Guests 5.5, closing 17), the writing at 50–60 fps. A Chrome trace showed an idle main thread and 2 of every 3 seconds of GPU raster: each frame the browser drew the printed faces of every card again. Cause: the light on the cards was set as per-frame CSS custom properties, and the foil band (`.st-band`) wrapped all the printed layers, so its moving gradient invalidated them; the SVG `feTurbulence` paper grain for 5 cards each frame was half the cost. (Switch-off experiments and the trace: `docs/barat-pocket-depth-2026-10-08/tools/variants.js`, `trace.js`.)
+**Changes.** `js/render.js`: a real `<i class="shade">` in every face and edge, and `.st-glint` (the gold) under `.st-band` (which keeps the layout only). `css/invitation.css`: `.shade`, `.st-glint`, `.sheen`, `.cast` are `will-change` layers; the old `--shade/--dim/--glint…` custom properties and their reset rules are gone. `js/app.js`: `lightTo`/`glintTo` set opacity, background position and transform directly (the foil follows in 0.5 % steps during a movement, exactly at rest); **glides**: `glideTable` measures, with the real projected corners of the folder, lid and cards, how far the fastest of them moves on the screen for each step of p and spends time on p so that it keeps one speed, eased in and out only at the two ends of the movement (the lid; the card out of the pocket and presented; the card aside and the next one presented; the closing); the short rest after each (the camera drifting, 0.3–0.5 s) and the writing and settle legs are unchanged linear legs; Back plays a glide reversed; tables are measured once per card size (not in the close-up). `PACE.motion` 2.8 → 3.4 s per screen. The staged names leave the stage on `paper` easing instead of `settle` (which starts at 4.5× speed).
+**Page times (plan, s).** Tap 1 → Main 18.98; tap 2 → Barat 14.2; tap 3 → Walima 14.19; tap 4 → Guests 36.6; tap 5 → Thank You 10.2; about 94 s in all (was 89).
+**Measured, before → after (GPU Chrome, 390×844, DPR 1).**
+| | before | after |
+|---|---|---|
+| frame rate while the card moves (opening / Main → Barat / Barat → Walima / Walima → Guests / closing) | 17 / 12 / 7.5 / 5.5 / 17 fps | 53 / 54 / 39 / 30 / 48 fps |
+| frame rate while writing | 50–60 | 60 |
+| fastest object on screen, peak (pages 1–5), px/s | 976 / 728 / 868 / 584 / 1224 | 443 / 386 / 483 / 428 / 628 |
+| largest change between neighbouring 0.25 s windows | 574 / 582 / 718 / 458 / 809 | 184 / 183 / 248 / 191 / 433 |
+| compositor tile memory, DPR 3, worst page | 153 MB | 195 MB (+27 %) |
+| load to ready | about 0.5 s | about 0.5 s (building the glides ≈ 33 ms) |
+**Tests.** `tap-suite.js`: Chromium (GPU) 390×844 116/116, 1280×800 115/115, 844×390 115/115 (one run 114/115: the strict "Back is pixel-identical" check, see below), touch 390×844 116/116, Firefox headed 1280×800 115/115 and 390×844 116/116; `extra-checks.js` 16/16; `tap-fuzz.js` seeds 1, 2, 3, 6 (390×844), 4 (1280×800), 7 (844×390), 5 (Firefox). The Back check now allows 12/255 (the foil/shade layers are GPU layers; seen once up to 9/255 on 44 K pixels and once 1/255 on 12 pixels, landscape); `vmax` uses the glide's `plan().peak`. A/B against Phase 7 at 55 positions: 390×844 DPR 1 54 identical (one position 11 px, max 12/255), 844×390 identical, 390×844 DPR 2 ≤ 47 px (max 29/255), desktop 1280×800 a 1-px shift of the foil band's outer outline (right/bottom edges; magnified, the same picture; DPR 2: about 1 % of the pixels, thin lines, max 91/255). Real WebKit (macOS WKWebView, 14 positions incl. the lid mid-turn) byte-identical PNGs; no-JS fallback one 344-px row (the same outline); static scan: no new URL, no phone-like digit run, build reproduced byte-for-byte.
+**Not verified / limits.** Real Safari/iOS motion and real phones (unmeasured); WhatsApp in-app. Walima → Guests is the heaviest page (three cards and their shadows): 30 fps on this Intel Mac, where the cost is compositing the soft shadows and scales with pixels (51 fps at 195×422, 30 at 390×844, 19 at 780×1688). Firefox here improves less (opening 15 → 35 fps, Main → Barat 17 → 23, the others 11–14). Memory +27 % of compositor tiles.
+
+
 ### Phase 3 items
 
 | Item | Result |
@@ -141,15 +161,15 @@ Full report: `docs/barat-pocket-depth-2026-10-08/DIAGNOSIS.md` (local evidence; 
 1. ~~Barat-card top overlap during extraction/return~~ **FIXED in Phase 5b** (0 px over Main at every sample; see above).
 2. **P3 decision:** the lid's leaves touch the end of "Invitation" on the 0.89 lid (landscape + desktop). Screenshot, or "move the word".
 3. Main → Barat keeps a 200 ms near-stop (YELLOW; outside P4's scope).
-4. GPU raster is the frame-rate limit at 1× on this Mac (paper textures, shade overlay, band glint).
+4. ~~GPU raster is the frame-rate limit at 1× on this Mac~~ **Fixed in Phase 8** (the cards are no longer redrawn per frame). What remains is compositing the soft shadows on the Walima → Guests page (30 fps on this Intel Mac, 39–54 elsewhere).
 5. Landscape text is 4.5–9 px (the hint covers it); WebKit shifts fully written lines ≈3 px when zoom sharpens.
 6. ~~Tap-to-open glide is ~9.3 s~~ **Superseded in Phase 7** (the story is tap-driven; the first tap now plays the lid and the whole Main page, 18.3 s). The lid/opening choreography itself is unchanged and still protected; its pace is `PACE.motion`.
 7. **Real devices: never tested** (iPhone Safari, Android Chrome, WhatsApp in-app). The share preview was verified from the live HTML tags and the live `preview.jpg`, not in WhatsApp itself.
 8. **Contact numbers (Phase 6):** removed from the sources, the build and the handoff, and, since the Phase 6 deploy, from the live page (verified, § Deployment record). They remain readable in earlier commits of the public git history; see § Phase 6 for the options. The invitation never displayed them.
 9. Pre-existing renderer raster noise: scrolling forward vs back to the same position over p 0.891–0.923 (Walima's return) differs by ≤ 2/255 on thousands of pixels, and by up to 56/255 on a 9-pixel edge line at p = 0.8936. Identical in the candidate and the final build; the Barat slide (p ≥ 0.9248) is bit-identical both ways.
 10. The public repo's description still names both people (GitHub setting; not changed).
-11. **Pace (Phase 7):** the whole journey takes about 89 s of animation (Guests page 35.7 s, 12 names at 2.2 s). It is deliberate ("never rushed") but it is the number to change if guests find it long: `PACE.name`, `PACE.motion`, `PACE.k.*` in `js/app.js`.
-12. **Frame rate (Phase 7):** with the story autoplaying, the GPU raster limit of finding 4 is more visible than under scroll: ≈ 12–22 fps in the Barat/Walima scenes on this Mac. Not changed; real phones untested.
+11. **Pace (Phase 7, 8):** the whole journey takes about 94 s of animation (Guests page 35.7 s, 12 names at 2.2 s). It is deliberate ("never rushed") but it is the number to change if guests find it long: `PACE.name`, `PACE.motion`, `PACE.k.*` in `js/app.js`.
+12. **Frame rate:** fixed in Phase 8 (5–17 → 30–54 fps for the card movements on this Mac); real phones untested.
 13. **Zoom entry (Phase 7):** tapping the card no longer opens the close-up; the magnifier button and Z do. The close-up is unchanged.
 14. **Caching:** there is no service worker and no cache version in the page. GitHub Pages serves the HTML with `Cache-Control: max-age=600`, so a returning guest may see the previous page for up to 10 minutes (longer if their browser restores a page from memory). Nothing can clear a visitor's cache remotely.
 
@@ -171,7 +191,7 @@ Full report: `docs/barat-pocket-depth-2026-10-08/DIAGNOSIS.md` (local evidence; 
 - Polish report: `docs/compat-evidence-2026-10-07/FINAL-POLISH-REPORT.md`
 - Measurements: `docs/compat-evidence-2026-10-07/FINAL-MEASUREMENTS-REPORT.md`
 - Phase 1: `docs/compat-evidence-2026-10-07/phase1/PHASE1-REPORT.md`
-- In-project backups: `backups/` (build snapshots, `2026-10-08-pre-consolidation/`, `2026-10-08-pre-barat-pocket-depth-fix/`, `2026-10-09-pre-share-preview/`, `2026-10-09-final-63ad01d2/`, `2026-10-09-pre-privacy-cleanup/`, `2026-10-09-final-db45b198/`, `2026-10-10-pre-tap-wip/`, `2026-10-10-final-5aa24e82/`) · frozen baseline: `dist/baseline/`
+- In-project backups: `backups/` (build snapshots, `2026-10-08-pre-consolidation/`, `2026-10-08-pre-barat-pocket-depth-fix/`, `2026-10-09-pre-share-preview/`, `2026-10-09-final-63ad01d2/`, `2026-10-09-pre-privacy-cleanup/`, `2026-10-09-final-db45b198/`, `2026-10-10-pre-tap-wip/`, `2026-10-10-final-5aa24e82/`, `2026-10-10-pre-luxury-motion/`, `2026-10-10-final-25118892/` (current)) · frozen baseline: `dist/baseline/`
 - Pre-merge backups: `/Users/noumansafdar/dev/_project-merge-backups/2026-10-08_100531/`
 
 ## Deployment record
@@ -218,3 +238,7 @@ Full report: `docs/barat-pocket-depth-2026-10-08/DIAGNOSIS.md` (local evidence; 
 
 Guest share URL (final): **https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/** — keep the trailing slash (without it GitHub adds one redirect).
 Raw live evidence (local, not in git): `docs/barat-pocket-depth-2026-10-08/live/` and `evidence/`.
+
+### Phase 8 — build `25118892…250b6` (smooth, soft card motion)
+
+Recorded after the push (see the next commit): commit, GitHub Pages build, live hash and live checks.

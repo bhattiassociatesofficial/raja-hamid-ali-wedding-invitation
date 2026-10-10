@@ -6,6 +6,32 @@ How to restore any of these: `docs/ROLLBACK.md`.
 
 ---
 
+## 2026-10-10 — Phase 8: smooth, soft card motion (no more redrawing per frame; one even glide per movement)
+
+- **OLD BUILD (live before):** `5aa24e824fbab1c13de1293f382ba3f449b0f444e35dede8363cf6eee39da27b` (652,706 bytes; Phase 7)
+- **NEW BUILD:** `25118892b2d833d09399c979b8065b49b4e11dc6c355d3e59658be54ddd250b6` (**662,347 bytes**), built with `node build.js --url https://bhattiassociatesofficial.github.io/raja-hamid-ali-wedding-invitation/`; reproduced byte-for-byte (two builds); `preview.jpg` unchanged.
+- **WHY:** request: the card animations must be completely smooth, premium, soft and luxurious.
+- **FINDING (measured, GPU Chrome, real taps, real time):** the movements of the cards ran at **5–17 fps** (closed → Main 17, Main → Barat 12, Barat → Walima 7.5, Walima → Guests 5.5, closing 17) while the writing ran at 50–60 fps. The main thread was idle; the GPU spent two of every three seconds drawing tiles. Cause: every frame of a movement the browser drew the printed faces of every card again (paper grain, floral print, foil band). Two things made it so: (1) the light on the cards (`--sf --sb --se --dim --glint --sheen-x --cast-o --cast-w`) was set as CSS custom properties, and (2) the foil band (`.st-band`) was the parent of all the printed layers, so moving its gradient (`--glint`) invalidated all of them. Re-drawing the grain (an SVG `feTurbulence`) for 5 cards each frame was about half of the cost. Per-feature switch-off experiments and a Chrome trace are in `docs/barat-pocket-depth-2026-10-08/tools/` (`variants.js`, `trace.js`).
+- **CHANGES (`js/render.js`, `css/invitation.css`, `js/app.js`):**
+  - **Light is drawn on layers of its own.** Every face and edge carries a real `<i class="shade">` (was `::after`); the foil band's gold is a separate element `.st-glint` under the printed layers (`.st-band` keeps only the layout). `.shade`, `.st-glint`, `.sheen` and `.cast` are `will-change` layers, set directly from JS (`opacity`, `background-position`, `transform`); no custom property changes per frame any more. A moving card is now only moved, not redrawn.
+  - **Foil glint** follows in steps of 0.5 % while a movement plays (a few pixels of a highlight that is fifty wide) and is set exactly at rest.
+  - **Glides (`glideTable`, `PLAN`).** Each page's movement (lid; card out and presented; card aside and the next presented; the closing) is played as one glide: the same poses in the same order, but p is spent so that whichever of the folder, lid and cards moves fastest keeps one speed on the screen (measured from the real projected corners), easing in and out only at the two ends. It removes the bursts and near-stops between the pull, lift and presenting windows, and the abrupt ending of the closing. Back plays the same glide reversed.
+  - **Pace:** `PACE.motion` 2.8 → 3.4 s per screen: Main → Barat 5.3 s (was 4.4), Barat → Walima 5.1 (4.2), Walima → Guests 5.1 (4.2), closing 10.2 (8.4), opening 3.9 + rest. Whole journey about 94 s (was 89).
+  - **Guest names / the three staged names** leave the stage on `paper` easing (was `settle`, which starts at 4.5× speed): they depart gently.
+  - Cards, sizes, typography, artwork, camera and card poses, the Barat pocket-depth fix, zoom geometry, content, share tags and `preview.jpg` are unchanged.
+- **RESULTS (GPU Chrome 390×844, DPR 1, before → after; the whole card is at the same size in both):**
+  - frame rate of the movements: opening 17 → 53, Main → Barat 12 → 54, Barat → Walima 7.5 → 39, Walima → Guests 5.5 → 30, closing 17 → 48 fps; writing 50–60 → 60 fps. Walima → Guests (three cards and their shadows on screen) is the heaviest: what remains there is the cost of compositing the soft shadows on this Intel Mac (it scales with the number of pixels: 51 fps at 195×422, 30 at 390×844, 19 at 780×1688).
+  - speed of the fastest object on the screen (px/s, 390×844): peaks 976/728/868/584/1224 → 443/386/483/428/628 (pages 1–5); the largest change between neighbouring 0.25 s windows 574/582/718/458/809 → 184/183/248/191/433.
+  - compositor tile memory at DPR 3, worst page: 153 MB → 195 MB (+27 %, memory-infra dump).
+- **TESTS** (tools in `docs/barat-pocket-depth-2026-10-08/tools/`; real mouse/touch/keyboard):
+  - `tap-suite.js` full journey: Chromium (GPU) 390×844 **116/116**, 1280×800 **115/115**, 844×390 **115/115 (one run: 114/115, see below)**; touch 390×844 **116/116**; Firefox (headed) 1280×800 **115/115**, 390×844 116/116 (and one run 115/116 on the *old* build too: the hint's 0.2 s fade sampled early in Firefox). `extra-checks.js` 16/16. `tap-fuzz.js` Chromium 390×844 seeds 1, 2, 3, 6, 1280×800 seed 4, 844×390 seed 7, Firefox 390×844 seed 5: all pass.
+  - The suite's Back check was "bit-identical to the page reached going forward"; the foil/shade layers are GPU layers whose raster can differ by a few levels depending on the scale they were last drawn at (seen once in landscape: up to 9/255 on 44 K pixels; once 1/255 on 12 pixels), so the check now allows 12/255. `vmax` in the suite uses the glide's peak p-rate (`plan().peak`).
+  - A/B against the Phase 7 build at 55 story positions: Chromium 390×844 DPR 1: 54 identical, 1 position with 11 px (max 12/255); 844×390: all identical; 390×844 DPR 2: ≤ 47 px (max 29/255); desktop 1280×800: a 1-px shift of the foil band's outer outline on the right/bottom edges (about 0.5 % of the pixels, max 98/255 on that line; looked at magnified: the same picture). Real WebKit (macOS WKWebView, 14 positions incl. the lid mid-turn): byte-identical PNGs. No-JavaScript fallback: one 344-px row differs (the same outline).
+  - Not verified: real Safari/iOS (the WKWebView here renders still frames only), real phones, WhatsApp in-app. Firefox on this Mac improves less (opening 15 → 35 fps, Main → Barat 17 → 23, the heavier ones about 11–14).
+- **ROLLBACK LOCATION:** `backups/2026-10-10-final-5aa24e82/` (complete Phase 7 sources and build, the one that was live) and `backups/2026-10-10-pre-luxury-motion/` (the Phase 7 sources and its deployed page as found at the start of Phase 8). Complete Phase 8 backup: `backups/2026-10-10-final-25118892/`.
+
+---
+
 ## 2026-10-10 — Phase 7: Tap-to-advance experience (one tap, one page)
 
 - **OLD BUILD (live before):** `db45b1985149b36e1ac01355ec9bb8f50a7b0b55af582d2236ea53d72f4f2cd5` (642,727 bytes; scroll-driven)
